@@ -1,0 +1,30 @@
+version: '2.2'
+services: 
+  app:
+    image: app.wpe-simulator:1.0.0
+    ports:
+      - 8484:8484
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    container_name: app.wpe-simulator
+    restart: unless-stopped
+    tty: true
+    environment:
+      TZ : Asia/Jakarta
+    working_dir: /app
+    volumes:
+      - ./:/app
+    networks:
+      pcs:
+        aliases:
+          - app.smpk
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 10m
+
+
+networks:
+  pcs:
+    name: pcs
+    driver: bridge
